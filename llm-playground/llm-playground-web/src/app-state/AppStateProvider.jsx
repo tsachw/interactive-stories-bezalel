@@ -1,33 +1,31 @@
-import { createContext, useReducer } from "react"
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useContext, useState } from "react"
 
 const initAppState = {
-    instructions: '',
+    instructions: 'Something..',
     counter: 1,
     messages: []
 }
 
-function appStateReducer(state, action) {
-    switch (action.type) {
-        case 'addMessage':
-            return { ...state, messages: [...state.messages].push(action.payload) };
-        case 'cleareMessages':
-            return { ...state, messages: [] };
-        case 'setCounter':
-            return { ...state, counter: action.setter(state.counter) }
-        default:
-            return { ...state };
-    }
-}
-
-export const AppState = createContext(initAppState);
-export const AppStateUpdater = createContext(null);
+const AppStateContext = createContext(initAppState);
+const AppStateReducerContext = createContext(null);
 
 export default function AppStateProvider({ children }) {
-    const [appState, dispatch] = useReducer(appStateReducer, initAppState);
+    const [appState, setAppState] = useState(initAppState);
 
-    return <AppState.Provider value={appState}>
-        <AppStateUpdater.Provider value={dispatch}>
-            {children}
-        </AppStateUpdater.Provider>
-    </AppState.Provider>
+    return (
+        <AppStateContext.Provider value={appState}>
+            <AppStateReducerContext.Provider value={setAppState}>
+                {children}
+            </AppStateReducerContext.Provider>
+        </AppStateContext.Provider>
+    )
+}
+
+export function useAppState() { return useContext(AppStateContext) }
+export function useSetAppState() {
+    const set = useContext(AppStateReducerContext);
+    return (newState) => {
+        set(currentState => ({ ...currentState, ...newState }));
+    }
 }
