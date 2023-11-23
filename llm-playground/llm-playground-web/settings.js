@@ -1,3 +1,3 @@
 export const SETTINGS = {
-	OPEN_AI_API_KEY: import.meta.env.OPEN_AI_API_KEY ?? '',
+	OPENAI_API_KEY: import.meta.env.OPENAI_API_KEY ?? '',
 };
