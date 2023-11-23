@@ -1,10 +1,11 @@
 import { useAppState } from "../../app-state/AppStateProvider"
+import './story-body-styles.css'
 
 export default function StoryBodyView() {
-    const { instructions } = useAppState();
+    const { messages } = useAppState();
 
-    return (<main>
-        <h4>Story body view</h4>
-        <span>Instructions:</span>{instructions}
-    </main>)
+    return (
+        <main id="main-body-cont">
+            {messages.map((msg, i) => (<p key={'msg' + i}>{msg}</p>))}
+        </main>)
 }

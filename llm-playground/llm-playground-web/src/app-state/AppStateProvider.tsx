@@ -1,16 +1,20 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useState, Dispatch, SetStateAction, PropsWithChildren } from "react"
 
-const initAppState = {
+type AppState = {
+    instructions: string;
+    messages: string[];
+}
+
+const initAppState: AppState = {
     instructions: 'Something..',
-    counter: 1,
-    messages: []
+    messages: ['Once upon a time...']
 }
 
 const AppStateContext = createContext(initAppState);
-const AppStateReducerContext = createContext(null);
+const AppStateReducerContext = createContext<Dispatch<SetStateAction<AppState>>>(() => null);
 
-export default function AppStateProvider({ children }) {
+export default function AppStateProvider({ children }: PropsWithChildren) {
     const [appState, setAppState] = useState(initAppState);
 
     return (
@@ -25,7 +29,7 @@ export default function AppStateProvider({ children }) {
 export function useAppState() { return useContext(AppStateContext) }
 export function useSetAppState() {
     const set = useContext(AppStateReducerContext);
-    return (newState) => {
+    return (newState: Partial<AppState>) => {
         set(currentState => ({ ...currentState, ...newState }));
     }
 }

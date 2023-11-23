@@ -6,7 +6,9 @@ function App() {
 
   return (
     <AppStateProvider>
-      Open Stories Playground
+      <h3>
+        Open Story
+      </h3>
       <StoryBodyView />
       <InteractorInputView />
     </AppStateProvider>

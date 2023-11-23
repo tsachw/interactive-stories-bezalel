@@ -1,0 +1,13 @@
+#interactor-box {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	padding-bottom: 64px;
+	display: flex;
+	gap: 4px;
+}
+
+#interactor-text-input {
+	width: 100%;
+}

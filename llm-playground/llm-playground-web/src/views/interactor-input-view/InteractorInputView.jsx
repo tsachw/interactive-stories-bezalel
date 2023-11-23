@@ -1,22 +1,27 @@
 import { useState } from "react";
 import { useAppState, useSetAppState } from "../../app-state/AppStateProvider";
-
+import "./interactor-input-styles.css";
 
 export default function InteractorInputView() {
 
-    const { counter, messages } = useAppState();
+    const { messages } = useAppState();
     const setAppState = useSetAppState();
     const [newMsg, setNewMsg] = useState('');
 
-    return (<div>
-        <h4>Interactor Input</h4>
-        <span>counter:</span> {counter}
-        <br />
-        <span>messages:</span> {JSON.stringify(messages, null, 4)}
-        <br />
-        <input value={newMsg} onChange={e => setNewMsg(e.target.value)} />
-        <button onClick={() => setAppState({ messages: [...messages, newMsg] })}>send message</button>
-        <button onClick={() => setAppState({ messages: [] })}>clear all msgs</button>
-        <button onClick={() => setAppState({ counter: counter + 1 })}> increment counter</button>
-    </div>)
+    function send() {
+        setAppState({ messages: [...messages, newMsg] });
+        setNewMsg('');
+    }
+
+    return (
+        <div id="interactor-box">
+            <input
+                id="interactor-text-input"
+                value={newMsg}
+                onKeyDown={e => { if (e.key === 'Enter') send() }}
+                onChange={e => setNewMsg(e.target.value)}
+            />
+            <button onClick={send}>Send</button>
+        </div>
+    )
 }
