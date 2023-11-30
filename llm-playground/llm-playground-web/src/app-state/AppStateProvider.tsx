@@ -1,14 +1,23 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, Dispatch, SetStateAction, PropsWithChildren } from "react"
+import { STORY_CONFIG } from '../story-configurations/configuration-0.1';
+
+export type Message = {
+    role: 'system' | 'user' | 'assistant',
+    content: string
+}
 
 type AppState = {
     instructions: string;
-    messages: string[];
+    messages: Message[];
 }
 
 const initAppState: AppState = {
     instructions: 'Something..',
-    messages: ['Once upon a time...']
+    messages: [
+        { role: 'system', content: STORY_CONFIG.instructions },
+        { role: 'assistant', content: STORY_CONFIG.instructions },
+    ]
 }
 
 const AppStateContext = createContext(initAppState);
