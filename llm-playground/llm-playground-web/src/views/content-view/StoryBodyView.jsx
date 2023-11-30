@@ -6,9 +6,17 @@ export default function StoryBodyView() {
 
     return (
         <main id="main-body-cont">
-            {messages.map((msg, i) => {
-                if (msg.role === 'system') return null;
-                return (<p key={'msg' + i}>{msg.content}</p>)
-            })}
+            <div id="text-column-cont">
+                {messages.map((msg, i) => {
+                    if (msg.role === 'system') return null;
+                    return (<p
+                        key={'msg' + i}
+                        className={`message-${msg.role}`}
+                    >
+                        {msg.content}
+                    </p>
+                    )
+                })}
+            </div>
         </main>)
 }

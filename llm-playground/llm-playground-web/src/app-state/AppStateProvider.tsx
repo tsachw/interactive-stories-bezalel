@@ -16,7 +16,7 @@ const initAppState: AppState = {
     instructions: 'Something..',
     messages: [
         { role: 'system', content: STORY_CONFIG.instructions },
-        { role: 'assistant', content: STORY_CONFIG.instructions },
+        { role: 'assistant', content: STORY_CONFIG.welcomeMsg },
     ]
 }
 

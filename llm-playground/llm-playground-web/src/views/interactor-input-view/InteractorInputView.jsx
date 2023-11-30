@@ -8,37 +8,50 @@ export default function InteractorInputView() {
     const { messages } = useAppState();
     const setAppState = useSetAppState();
     const [newMsg, setNewMsg] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
+    const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'error'
 
     const send = useCallback(() => {
         const newMessages = [...messages, { role: 'user', content: newMsg }];
-        setNewMsg('');
-        setIsLoading(true);
+        setAppState({ messages: newMessages });
+        setStatus('loading');
 
         fetch(
-            'https://api.openai.com/v1/models',
+            'https://api.openai.com/v1/chat/completions',
             {
-                method: 'GET',
+                method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${SETTINGS.OPENAI_API_KEY}`,
-                    'Content-Type': 'application/json'
+                    'content-type': 'application/json',
+                    Authorization: `Bearer ${SETTINGS.OPENAI_API_KEY}`
                 },
                 body: JSON.stringify({
                     model: 'gpt-4',
-                    messages: newMessages
+                    messages: newMessages,
+                    temperature: 1.2 // deterministic 0-2 random
+                    // todo: what is "Maximum length ('max_tokens')"? what is "Stop sequence ('stop')"?
                 })
             }
-        )
+        ).then(response => response.json()
+        ).then(data => {
+            try {
+                const storytellerResponse = data.choices[0].message;
+                setAppState({ messages: [...newMessages, storytellerResponse] })
+            } catch { err => { throw err } }
+            setStatus('idle');
+            setNewMsg('');
+        }).catch(err => {
+            console.error('Api error. Details: ', err);
+            setStatus('error');
+        })
 
-        setAppState({ messages: newMessages });
     }, [messages, newMsg]);
 
     return (
         <div
             id="interactor-box"
             style={{
-                opacity: isLoading ? 0.3 : 1,
-                pointerEvents: isLoading ? 'none' : 'auto'
+                opacity: status === 'loading' ? 0.3 : 1,
+                pointerEvents: status === 'loading' ? 'none' : 'auto',
+                color: status === 'error' ? 'red' : 'auto'
             }}
         >
             <input
@@ -48,6 +61,9 @@ export default function InteractorInputView() {
                 onChange={e => setNewMsg(e.target.value)}
             />
             <button onClick={send}>Send</button>
+            {
+                status === 'error' && 'Something is broken 😵‍💫'
+            }
         </div>
     )
 }
