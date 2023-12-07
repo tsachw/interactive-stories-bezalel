@@ -20,6 +20,8 @@ const initAppState: AppState = {
     ]
 }
 
+console.log(CONFIG)
+
 const AppStateContext = createContext(initAppState);
 const AppStateReducerContext = createContext<Dispatch<SetStateAction<AppState>>>(() => null);
 

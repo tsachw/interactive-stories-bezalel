@@ -27,15 +27,18 @@ export default function InteractorInputView() {
                     model: 'gpt-4-1106-preview',
                     messages: newMessages,
                     response_format: { type: "json_object" },
-                    temperature: 1.2 // deterministic 0-2 random
+                    temperature: 1 // deterministic 0-2 random
                     // todo: what is "Maximum length ('max_tokens')"? what is "Stop sequence ('stop')"?
                 })
             }
         ).then(response => response.json()
         ).then(data => {
             try {
-                const storytellerResponse = data.choices[0].message;
-                setAppState({ messages: [...newMessages, storytellerResponse] })
+                let storytellerResponse = data.choices[0].message;
+                storytellerResponse = JSON.parse(storytellerResponse);
+                console.log(storytellerResponse);
+
+                setAppState({ messages: [...newMessages, storytellerResponse.output] })
             } catch { err => { throw err } }
             setStatus('idle');
             setNewMsg('');
