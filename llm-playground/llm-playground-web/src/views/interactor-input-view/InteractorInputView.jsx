@@ -24,8 +24,9 @@ export default function InteractorInputView() {
                     Authorization: `Bearer ${SETTINGS.OPENAI_API_KEY}`
                 },
                 body: JSON.stringify({
-                    model: 'gpt-4',
+                    model: 'gpt-4-1106-preview',
                     messages: newMessages,
+                    response_format: { type: "json_object" },
                     temperature: 1.2 // deterministic 0-2 random
                     // todo: what is "Maximum length ('max_tokens')"? what is "Stop sequence ('stop')"?
                 })

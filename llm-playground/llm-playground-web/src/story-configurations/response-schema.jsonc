@@ -1,0 +1,13 @@
+{
+    /** Number between 0 to 1, where 0 is bored and 1 is excited */
+    "player_engagement": 0.5, // number between 0 to 1, where 0 is bored and 1 is excited
+    
+    /**
+    * 
+    * 'neutral' | 'empathy' | 'joy' | 'sadness' | 'fear' | 'wonder' | 'surprise' | 'disgust' | 'curiosity' | 'nostalgia' | 'anguish'
+    */
+    "player_sentiment": "neutral", // 
+    
+    /** string, the text for the player. Should never exceed 100 characters*/
+    "text": "", // 
+}
