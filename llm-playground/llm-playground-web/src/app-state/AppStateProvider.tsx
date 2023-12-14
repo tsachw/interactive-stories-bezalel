@@ -8,17 +8,19 @@ export type Message = {
 }
 
 type AppState = {
-    instructions: string;
     messages: Message[];
+    callToAction: string;
+    showCallToAction: boolean;
     status: 'idle' | 'loading' | 'error';
 }
 
 const initAppState: AppState = {
-    instructions: 'Something..',
     messages: [
         { role: 'system', content: CONFIG.instructions },
         { role: 'assistant', content: CONFIG.openingLine }
     ],
+    callToAction: CONFIG.callToAction,
+    showCallToAction: true,
     status: 'idle'
 }
 

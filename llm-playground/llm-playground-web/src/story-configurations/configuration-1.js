@@ -25,10 +25,17 @@ export const STORY_CONFIG2 = {
             // ['joy' | 'irritation' | 'sadness' | 'fear' | 'surprise' | 'disgust' | 'empathy'] | null 
             "playerSentiment": null,
             
-            // string, the text to present to the player.
-            "output": "" 
+            // string, the story text to present to the player. 
+            "storyText": ""
+            
+            // string, call-to-action or a hint for the player on what to do next. Don't suggest passive actions.
+            "callToAction": ""
         }
         \`\`\`
+
+        You should limit the length of the output texts:
+        "storyText" maximum length is 20 words. It can be changed by a system message.
+        "callToAction maximum lenght is always 10 words.
 
         Base your output on the following backstory:
         "The hero of the story is Yehuda Kaminka.
@@ -48,7 +55,8 @@ export const STORY_CONFIG2 = {
         The game begins when Yehuda returns to Israel from the United States in order to divorce his wife, who is hospitalized in an institution for the mentally ill.
         Yehuda sits in a cab with the player who is a stranger who Yehuda met at the airport. It's raining outside
     `,
-    openingLine: `Here, in the backseat, You find yourself accompanying a man called Yehuda, returning from the distant shores of the United States. You're wondering what's his story. \n What would you like to do now?`,
+    openingLine: `Here, in the backseat, You find yourself accompanying a man called Yehuda, returning from the distant shores of the United States. You're wondering what's his story.`,
+    callToAction: 'What would you like to do now?',
 };
 
 /*

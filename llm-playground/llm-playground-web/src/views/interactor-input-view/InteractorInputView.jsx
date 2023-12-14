@@ -1,17 +1,25 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useAppState, useSetAppState } from "../../app-state/AppStateProvider";
 import "./interactor-input-styles.css";
 import { SETTINGS } from "../../../settings";
+import Timer from "../../utils/timer";
 
 export default function InteractorInputView() {
 
-    const { messages, status } = useAppState();
+    const { messages, status, showCallToAction, callToAction } = useAppState();
     const setAppState = useSetAppState();
     const [newMsg, setNewMsg] = useState('');
+    const idleTimer = useRef(new Timer(10000, () => setAppState({ showCallToAction: true })));
 
     const send = useCallback(() => {
+
         const newMessages = [...messages, { role: 'user', content: newMsg }];
-        setAppState({ messages: newMessages, status: 'loading' });
+
+        if (!isNaN(parseInt(newMsg))) {
+            newMessages.push({ role: 'system', content: `Your next storyText output has maximum length of ${newMsg} words.` })
+        }
+
+        setAppState({ messages: newMessages, status: 'loading', callToAction: '', showCallToAction: false });
         setNewMsg('');
 
         fetch(
@@ -40,10 +48,13 @@ export default function InteractorInputView() {
                 setAppState({
                     messages: [
                         ...newMessages,
-                        { role: 'assistant', content: storytellerResponse.output }
+                        { role: 'assistant', content: storytellerResponse.storyText }
                     ],
+                    callToAction: storytellerResponse.callToAction,
                     status: 'idle'
                 })
+
+                idleTimer.current.start();
             } catch { err => { throw err } }
         }).catch(err => {
             console.error('Api error. Details: ', err);
@@ -51,6 +62,10 @@ export default function InteractorInputView() {
         })
 
     }, [messages, newMsg]);
+
+    useEffect(() => {
+        idleTimer.current.cancel();
+    }, [newMsg])
 
     return (
         <div
@@ -64,6 +79,7 @@ export default function InteractorInputView() {
             <input
                 id="interactor-text-input"
                 value={newMsg}
+                placeholder={showCallToAction ? `(tip) ${callToAction}` : ''}
                 onKeyDown={e => { if (e.key === 'Enter') send() }}
                 onChange={e => setNewMsg(e.target.value)}
             />
