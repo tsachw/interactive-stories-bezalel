@@ -56,7 +56,7 @@ export default function InteractorInputView() {
                     status: 'idle'
                 })
 
-                idleTimer.current = new Timer(10000, () => {
+                idleTimer.current = new Timer(15000, () => {
                     // Apply call to action hint:
                     newMessages.push({ role: 'assistant', content: `(${storytellerResponse.callToAction})` });
                     setAppState({ messages: [...newMessages] });
