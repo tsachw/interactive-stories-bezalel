@@ -13,44 +13,44 @@ export default function InteractorInputView() {
     const send = useCallback(() => {
         const newMessages = [...messages, { role: 'user', content: newMsg }];
         setAppState({ messages: newMessages });
-        // setStatus('loading');
+        setStatus('loading');
 
-        // fetch(
-        //     'https://api.openai.com/v1/chat/completions',
-        //     {
-        //         method: 'POST',
-        //         headers: {
-        //             'content-type': 'application/json',
-        //             Authorization: `Bearer ${SETTINGS.OPENAI_API_KEY}`
-        //         },
-        //         body: JSON.stringify({
-        //             model: 'gpt-4-1106-preview',
-        //             messages: newMessages,
-        //             response_format: { type: "json_object" },
-        //             temperature: 1 // deterministic 0-2 random
-        //             // todo: what is "Maximum length ('max_tokens')"? what is "Stop sequence ('stop')"?
-        //         })
-        //     }
-        // ).then(response => response.json()
-        // ).then(data => {
-        //     try {
-        //         let storytellerResponse = data.choices[0].message.content;
-        //         storytellerResponse = JSON.parse(storytellerResponse);
-        //         console.log(storytellerResponse);
+        fetch(
+            'https://api.openai.com/v1/chat/completions',
+            {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                    Authorization: `Bearer ${SETTINGS.OPENAI_API_KEY}`
+                },
+                body: JSON.stringify({
+                    model: 'gpt-4-1106-preview',
+                    messages: newMessages,
+                    response_format: { type: "json_object" },
+                    temperature: 1 // deterministic 0-2 random
+                    // todo: what is "Maximum length ('max_tokens')"? what is "Stop sequence ('stop')"?
+                })
+            }
+        ).then(response => response.json()
+        ).then(data => {
+            try {
+                let storytellerResponse = data.choices[0].message.content;
+                storytellerResponse = JSON.parse(storytellerResponse);
+                console.log(storytellerResponse);
 
-        //         setAppState({
-        //             messages: [
-        //                 ...newMessages,
-        //                 { role: 'assistant', content: storytellerResponse.output }
-        //             ]
-        //         })
-        //     } catch { err => { throw err } }
-        //     setStatus('idle');
-        //     setNewMsg('');
-        // }).catch(err => {
-        //     console.error('Api error. Details: ', err);
-        //     setStatus('error');
-        // })
+                setAppState({
+                    messages: [
+                        ...newMessages,
+                        { role: 'assistant', content: storytellerResponse.output }
+                    ]
+                })
+            } catch { err => { throw err } }
+            setStatus('idle');
+            setNewMsg('');
+        }).catch(err => {
+            console.error('Api error. Details: ', err);
+            setStatus('error');
+        })
 
     }, [messages, newMsg]);
 
