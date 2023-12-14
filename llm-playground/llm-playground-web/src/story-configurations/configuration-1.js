@@ -15,7 +15,7 @@ export const STORY_CONFIG2 = {
         Craft brief yet vivid sentences that empower players to make choices and fuel their creativity. 
   
         Provide your output in JSON format of this scheme:
-        \```
+        \`\`\`
         {
             //float between 0 to 1, where 0 is bored and 1 is excited
             "playerEngagement": 0.5,
@@ -28,7 +28,7 @@ export const STORY_CONFIG2 = {
             // string, the text to present to the player. The output length should never exceed 200 characters 
             "output": "" 
         }
-        \```
+        \`\`\`
 
         Base your output on the following backstory:
         "The hero of the story is Yehuda Kaminka.
@@ -45,10 +45,42 @@ export const STORY_CONFIG2 = {
         "attack", "kitchen", "knife".
 
         The game begins when Yehuda returns to Israel from the United States in order to divorce his wife, who is hospitalized in an institution for the mentally ill.
-        Yehuda sits in a cab with the player who is a stranger who Yehuda met at the airport.
+        Yehuda sits in a cab with the player who is a stranger who Yehuda met at the airport. It's raining outside
     `,
-    openingLine: `Here, in the backseat, I found myself accompanying a man called Yehuda, returning from the distant shores of the United States`,
+    openingLine: `Here, in the backseat, You find yourself accompanying a man called Yehuda, returning from the distant shores of the United States. You're wondering what's his story. \n What would you like to do now?`,
 };
+
+/*
+* Here, in the backseat, You find yourself accompanying a man called Yehuda, returning from the distant shores of the United States
+
+Ask Yehuda where he is heading for
+
+Raindrops streak the windows as you inquire, 'Where to in this weather, Yehuda?'
+
+and what does Yehuda answers?
+
+He hesitates, 'To visit someone dear,' he says, his gaze lost in the rain.
+
+And who should that be?
+
+Yehuda sighs, 'My wife,' his voice tinged with a complex sorrow.
+
+What happend to her?
+
+Her mind turned frail,
+
+When was the last time you saw her?
+
+Five years ago, memories both bitter and sweet,
+
+Wow that's long ago. Why did you leave her?
+
+He looks away, 'Life... it's complicated.' His words are heavy with untold stories.
+
+And since then you where living all by yourself in the US?
+
+Not alone, a dear companion's by my side.
+*/
 
 /*
 From OpenAI prompt engineering documentation:
