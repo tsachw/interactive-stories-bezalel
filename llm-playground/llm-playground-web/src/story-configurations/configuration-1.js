@@ -28,7 +28,7 @@ export const STORY_CONFIG2 = {
             // string, the story text to present to the player. 
             "storyText": ""
             
-            // string, call-to-action or a hint for the player on what to do next. Don't suggest passive actions.
+            // string, call-to-action or a hint for the player on what to do next. Use a suggestive tone (e.g. start with "You can ..." or "You might ..."). Don't suggest passive actions.
             "callToAction": ""
         }
         \`\`\`
