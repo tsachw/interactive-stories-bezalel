@@ -22,10 +22,10 @@ export const STORY_CONFIG2 = {
             
             
             // Array of strings describing the player's emotional state, or null if it's not clear enough: 
-            // ['joy' | 'irritation' | 'sadness' | 'fear' | 'surprise' | 'disgust' | 'curiosity' | 'empathy'] | null 
+            // ['joy' | 'irritation' | 'sadness' | 'fear' | 'surprise' | 'disgust' | 'empathy'] | null 
             "playerSentiment": null,
             
-            // string, the text to present to the player. The output length should never exceed 200 characters 
+            // string, the text to present to the player.
             "output": "" 
         }
         \`\`\`
@@ -43,6 +43,7 @@ export const STORY_CONFIG2 = {
 
         The player's goal is to find about the event that triggered Yehuda to leave his wife five years ago, hence the fact of her attack should remain a secret unless the player uses on of the following key words:
         "attack", "kitchen", "knife".
+        Once the secret has been revealed, the story should come to an end and you should stop asking the player for actions.
 
         The game begins when Yehuda returns to Israel from the United States in order to divorce his wife, who is hospitalized in an institution for the mentally ill.
         Yehuda sits in a cab with the player who is a stranger who Yehuda met at the airport. It's raining outside

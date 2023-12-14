@@ -5,15 +5,14 @@ import { SETTINGS } from "../../../settings";
 
 export default function InteractorInputView() {
 
-    const { messages } = useAppState();
+    const { messages, status } = useAppState();
     const setAppState = useSetAppState();
     const [newMsg, setNewMsg] = useState('');
-    const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'error'
 
     const send = useCallback(() => {
         const newMessages = [...messages, { role: 'user', content: newMsg }];
-        setAppState({ messages: newMessages });
-        setStatus('loading');
+        setAppState({ messages: newMessages, status: 'loading' });
+        setNewMsg('');
 
         fetch(
             'https://api.openai.com/v1/chat/completions',
@@ -27,7 +26,7 @@ export default function InteractorInputView() {
                     model: 'gpt-4-1106-preview',
                     messages: newMessages,
                     response_format: { type: "json_object" },
-                    temperature: 1 // deterministic 0-2 random
+                    temperature: 1, // deterministic 0-2 random
                     // todo: what is "Maximum length ('max_tokens')"? what is "Stop sequence ('stop')"?
                 })
             }
@@ -42,14 +41,13 @@ export default function InteractorInputView() {
                     messages: [
                         ...newMessages,
                         { role: 'assistant', content: storytellerResponse.output }
-                    ]
+                    ],
+                    status: 'idle'
                 })
             } catch { err => { throw err } }
-            setStatus('idle');
-            setNewMsg('');
         }).catch(err => {
             console.error('Api error. Details: ', err);
-            setStatus('error');
+            setAppState({ status: 'error' });
         })
 
     }, [messages, newMsg]);

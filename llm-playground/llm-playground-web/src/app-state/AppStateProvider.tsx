@@ -10,6 +10,7 @@ export type Message = {
 type AppState = {
     instructions: string;
     messages: Message[];
+    status: 'idle' | 'loading' | 'error';
 }
 
 const initAppState: AppState = {
@@ -17,7 +18,8 @@ const initAppState: AppState = {
     messages: [
         { role: 'system', content: CONFIG.instructions },
         { role: 'assistant', content: CONFIG.openingLine }
-    ]
+    ],
+    status: 'idle'
 }
 
 const AppStateContext = createContext(initAppState);

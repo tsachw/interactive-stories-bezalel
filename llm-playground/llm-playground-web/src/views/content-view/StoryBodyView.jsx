@@ -2,9 +2,10 @@ import { useEffect, useRef } from "react";
 import { useAppState } from "../../app-state/AppStateProvider"
 import scrollToBottom from "../../utils/scrollToBottom";
 import './story-body-styles.css'
+import LoadingDots from "../../components/LoadingDots";
 
 export default function StoryBodyView() {
-    const { messages } = useAppState();
+    const { messages, status } = useAppState();
 
     const mainBodyContRef = useRef();
 
@@ -27,6 +28,9 @@ export default function StoryBodyView() {
                     </p>
                     )
                 })}
+                {
+                    status === 'loading' && <LoadingDots />
+                }
             </div>
         </main>)
 }
