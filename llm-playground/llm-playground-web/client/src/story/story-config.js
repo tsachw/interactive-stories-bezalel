@@ -5,23 +5,25 @@ const STORY_CONFIG_1 = {
         Craft brief yet vivid sentences that empower players to make choices and fuel their creativity. 
   
         Provide your output in JSON format of this scheme:
-        {
-            //float between 0 to 1, where 0 is bored and 1 is excited
+        {          
+            // string, the story text to present to the player. 
+            "storyText": "",
+            
+            // string, call-to-action or a hint for the player on what to do next. Use a suggestive tone (e.g. start with "You can ..." or "You might ..."). Don't suggest passive actions.
+            "callToAction": "",
+
+            // string, additional story event that happens regardless of the player's input, in order to push the story forward. It migh be poetic, it might be surprising, or even very dramatic.
+            "storyEvent": "",
+
+            // float between 0 and 1. It represents how close is the player to reach his goal. 0 means not at all, 1 means the goal is achieved.
+            "goalProgress": 0,
+
+            //float between 0 and 1, where 0 is bored and 1 is excited
             "playerEngagement": 0.5,
-            
-            
+                        
             // Array of strings describing the player's emotional state, or null if it's not clear enough: 
             // ['joy' | 'irritation' | 'sadness' | 'fear' | 'surprise' | 'disgust' | 'empathy'] | null 
             "playerSentiment": null,
-            
-            // string, the story text to present to the player. 
-            "storyText": ""
-            
-            // string, call-to-action or a hint for the player on what to do next. Use a suggestive tone (e.g. start with "You can ..." or "You might ..."). Don't suggest passive actions.
-            "callToAction": ""
-
-            // string, additional story event that happens regardless of the player's input, in order to push the story forward. It migh be poetic, it might be surprising, or even very dramatic.
-            "storyEvent": ""
         }
 
         You should limit the length of the output texts:
@@ -42,6 +44,7 @@ const STORY_CONFIG_1 = {
 
         The player's goal is to find about the event that triggered Yehuda to leave his wife five years ago, hence the fact of her attack should remain a secret unless the player uses on of the following key words:
         "attack", "kitchen", "knife".
+        The player must win Yehuda's trust and empathy, otherwise Yehuda will not reveal his full story.
         Once the secret has been revealed, the story should come to an end and you should stop asking the player for actions.
 
         The game begins when Yehuda returns to Israel from the United States in order to divorce his wife, who is hospitalized in an institution for the mentally ill.
