@@ -26,7 +26,8 @@ const STORY_CONFIG_1 = {
 
         You should limit the length of the output texts:
         "storyText" maximum length is 20 words. It can be changed by a system message.
-        "callToAction maximum lenght is always 10 words.
+        "callToAction" maximum lenghth is always 10 words.
+        "storyEvent" maximum length is 50 words.
 
         Base your output on the following backstory:
         "The hero of the story is Yehuda Kaminka.

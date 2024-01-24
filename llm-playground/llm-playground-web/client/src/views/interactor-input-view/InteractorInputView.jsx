@@ -2,26 +2,21 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useAppState, useSetAppState } from "../../app-state/AppStateProvider";
 import "./interactor-input-styles.css";
 import { SETTINGS } from "../../../settings";
-import Timer from "../../utils/timer";
+import { useHandleStoryResponse } from "../../story/story-logic";
 
 export default function InteractorInputView() {
 
-    const { messages, status } = useAppState();
+    const { messages, status, inputMessage } = useAppState();
     const setAppState = useSetAppState();
-    const [newMsg, setNewMsg] = useState('');
-    const idleTimer = useRef();
+
+
+    const handleResponse = useHandleStoryResponse();
 
     const send = useCallback(() => {
 
-        const newMessages = [...messages, { role: 'user', content: newMsg }];
+        const newMessages = [...messages, { role: 'user', content: inputMessage }];
 
-        // Test modifying the words limit:
-        // if (!isNaN(parseInt(newMsg))) {
-        //     newMessages.push({ role: 'system', content: `Your next storyText output has maximum length of ${newMsg} words.` })
-        // }
-
-        setAppState({ messages: newMessages, status: 'loading' });
-        setNewMsg('');
+        setAppState({ messages: newMessages, status: 'loading', inputMessage: '' });
 
         fetch(
             `${SETTINGS.SERVER_URL}/story-completions`,
@@ -38,35 +33,18 @@ export default function InteractorInputView() {
                 let storytellerResponse = data.choices[0].message.content;
                 storytellerResponse = JSON.parse(storytellerResponse);
 
-                console.log(storytellerResponse)
+                setAppState({ status: 'idle' });
+                handleResponse(newMessages, storytellerResponse);
 
-                newMessages.push(
-                    { role: 'assistant', content: storytellerResponse.storyText }
-                )
-
-
-                setAppState({
-                    messages: [...newMessages],
-                    status: 'idle'
-                })
-
-                idleTimer.current = new Timer(15000, () => {
-                    // Apply call to action hint:
-                    newMessages.push({ role: 'assistant', content: `(${storytellerResponse.callToAction})` });
-                    setAppState({ messages: [...newMessages] });
-                })
-                idleTimer.current.start();
             } catch { err => { throw err } }
         }).catch(err => {
             console.error('Api error. Details: ', err);
             setAppState({ status: 'error' });
         })
 
-    }, [messages, newMsg]);
+    }, [messages, inputMessage]);
 
-    useEffect(() => {
-        idleTimer.current?.cancel();
-    }, [newMsg])
+
 
     return (
         <div
@@ -79,9 +57,9 @@ export default function InteractorInputView() {
         >
             <input
                 id="interactor-text-input"
-                value={newMsg}
+                value={inputMessage}
                 onKeyDown={e => { if (e.key === 'Enter') send() }}
-                onChange={e => setNewMsg(e.target.value)}
+                onChange={e => setAppState({ inputMessage: e.target.value })}
             />
             <button onClick={send}>Send</button>
             {

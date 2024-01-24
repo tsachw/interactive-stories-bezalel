@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, Dispatch, SetStateAction, PropsWithChildren } from "react"
-import { SETTINGS } from "../../settings"
+import storyConfig from '../story/story-config';
 
 export type Message = {
     role: 'system' | 'user' | 'assistant',
@@ -10,9 +10,8 @@ export type Message = {
 type AppState = {
     messages: Message[];
     status: 'idle' | 'loading' | 'error';
+    inputMessage: '';
 }
-
-const storyConfig = SETTINGS.STORY_CONFIG;
 
 const initAppState: AppState = {
     messages: [
@@ -20,7 +19,8 @@ const initAppState: AppState = {
         { role: 'assistant', content: storyConfig.openingLine },
         { role: 'assistant', content: storyConfig.callToAction }
     ],
-    status: 'idle'
+    status: 'idle',
+    inputMessage: '',
 }
 
 const AppStateContext = createContext(initAppState);
