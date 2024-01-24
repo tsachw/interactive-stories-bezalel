@@ -23,7 +23,6 @@ export default function InteractorInputView() {
         setAppState({ messages: newMessages, status: 'loading' });
         setNewMsg('');
 
-        // TODO: get server url 
         fetch(
             `${SETTINGS.SERVER_URL}/story-completions`,
             {
@@ -35,60 +34,31 @@ export default function InteractorInputView() {
             }
         ).then(response => response.json()
         ).then(data => {
-            console.log(data);
-            setAppState({
-                status: 'idle'
-            })
+            try {
+                let storytellerResponse = data.choices[0].message.content;
+                storytellerResponse = JSON.parse(storytellerResponse);
+
+                newMessages.push(
+                    { role: 'assistant', content: storytellerResponse.storyText }
+                )
+
+
+                setAppState({
+                    messages: [...newMessages],
+                    status: 'idle'
+                })
+
+                idleTimer.current = new Timer(15000, () => {
+                    // Apply call to action hint:
+                    newMessages.push({ role: 'assistant', content: `(${storytellerResponse.callToAction})` });
+                    setAppState({ messages: [...newMessages] });
+                })
+                idleTimer.current.start();
+            } catch { err => { throw err } }
+        }).catch(err => {
+            console.error('Api error. Details: ', err);
+            setAppState({ status: 'error' });
         })
-            .catch(err => {
-                console.error('Api error. Details: ', err);
-                setAppState({ status: 'error' });
-            })
-
-        // fetch(
-        //     'https://api.openai.com/v1/chat/completions',
-        //     {
-        //         method: 'POST',
-        //         headers: {
-        //             'content-type': 'application/json',
-        //             Authorization: `Bearer ${SETTINGS.OPENAI_API_KEY}`
-        //         },
-        //         body: JSON.stringify({
-        //             model: 'gpt-4-1106-preview',
-        //             messages: newMessages,
-        //             response_format: { type: "json_object" },
-        //             temperature: 1, // deterministic 0-2 random
-        //             // todo: what is "Maximum length ('max_tokens')"? what is "Stop sequence ('stop')"?
-        //         })
-        //     }
-        // ).then(response => response.json()
-        // ).then(data => {
-        //     try {
-        //         let storytellerResponse = data.choices[0].message.content;
-        //         storytellerResponse = JSON.parse(storytellerResponse);
-        //         console.log(storytellerResponse);
-
-        //         newMessages.push(
-        //             { role: 'assistant', content: storytellerResponse.storyText }
-        //         )
-
-
-        //         setAppState({
-        //             messages: [...newMessages],
-        //             status: 'idle'
-        //         })
-
-        //         idleTimer.current = new Timer(15000, () => {
-        //             // Apply call to action hint:
-        //             newMessages.push({ role: 'assistant', content: `(${storytellerResponse.callToAction})` });
-        //             setAppState({ messages: [...newMessages] });
-        //         })
-        //         idleTimer.current.start();
-        //     } catch { err => { throw err } }
-        // }).catch(err => {
-        //     console.error('Api error. Details: ', err);
-        //     setAppState({ status: 'error' });
-        // })
 
     }, [messages, newMsg]);
 
