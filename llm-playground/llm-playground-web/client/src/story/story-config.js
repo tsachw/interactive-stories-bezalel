@@ -1,3 +1,29 @@
+const BASIC_CONFIG = {
+    name: 'Story Name',
+    instructions: `
+        You are an interactive fiction narrator. 
+        Craft brief yet vivid sentences that empower players to make choices and fuel their creativity. 
+  
+        Provide your output in JSON format of this scheme:
+        {          
+            // string, the story text to present to the player. 
+            "storyText": "",
+            
+            // float between 0 and 1. It represents how close is the player to reach his goal. 0 means not at all, 1 means the goal is achieved.
+            "goalProgress": 0,
+        }
+
+        Base your output on the following backstory:
+        <fill-in backstory>
+
+        The player's goal is to <fill-in goal>
+
+        The game begins when <fill-in scene description>
+    `,
+    openingLine: `Once upon a time...`,
+    callToAction: 'What would you like to do now?',
+};
+
 const STORY_CONFIG_1 = {
     name: 'On the Way to Closure',
     instructions: `
@@ -54,7 +80,7 @@ const STORY_CONFIG_1 = {
     callToAction: 'What would you like to do now?',
 };
 
-export default STORY_CONFIG_1;
+export default BASIC_CONFIG;
 
 /*
 From OpenAI prompt engineering documentation:

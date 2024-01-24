@@ -3,6 +3,25 @@ import { useAppState, useSetAppState } from '../app-state/AppStateProvider';
 import Timer from '../utils/timer';
 
 export function useHandleStoryResponse() {
+    const setAppState = useSetAppState();
+
+    function handleStoryResponse(messages, response) {
+        if (!response) return;
+
+        const newMessages = [...messages];
+
+        if (response.storyText) {
+            newMessages.push({ role: 'assistant', content: response.storyText });
+        }
+
+        setAppState({ messages: [...newMessages] });
+    }
+
+    return handleStoryResponse;
+}
+
+/*
+export function useHandleStoryResponse() {
     const { inputMessage } = useAppState();
     const setAppState = useSetAppState();
     const idleTimer = useRef();
@@ -49,3 +68,4 @@ export function useHandleStoryResponse() {
 
     return handleStoryResponse;
 }
+*/
