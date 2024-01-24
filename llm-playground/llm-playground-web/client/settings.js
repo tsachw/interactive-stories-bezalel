@@ -1,3 +1,3 @@
 export const SETTINGS = {
-    OPENAI_API_KEY: import.meta.env.VITE_OPENAI_API_KEY ?? '',
+    SERVER_URL: import.meta.env.VITE_SERVER_URL ?? 'http://localhost:8080',
 };
