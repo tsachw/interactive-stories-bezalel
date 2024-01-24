@@ -38,6 +38,8 @@ export default function InteractorInputView() {
                 let storytellerResponse = data.choices[0].message.content;
                 storytellerResponse = JSON.parse(storytellerResponse);
 
+                console.log(storytellerResponse)
+
                 newMessages.push(
                     { role: 'assistant', content: storytellerResponse.storyText }
                 )

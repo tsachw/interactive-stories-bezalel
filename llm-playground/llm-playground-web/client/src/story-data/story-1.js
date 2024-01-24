@@ -1,21 +1,10 @@
-/**
- * "Interactive Fiction Narrator"
- * TODO:
- * Make a proper TS interface for the config.
- */
-
-export const STORY_CONFIG1 = {
-    instructions: `You embody the role of an interactive fiction narrator. Craft concise yet vivid sentences that empower players to make choices and fuel their creativity. Your words should paint a rich tapestry, guiding the player through a world of possibilities and encouraging them to shape the narrative with their decisions.`,
-    openingLine: `This is the story of...`,
-};
-
-export const STORY_CONFIG2 = {
+const STORY_CONFIG_1 = {
+    name: 'On the Way to Closure',
     instructions: `
         You are an interactive fiction narrator. 
         Craft brief yet vivid sentences that empower players to make choices and fuel their creativity. 
   
         Provide your output in JSON format of this scheme:
-        \`\`\`
         {
             //float between 0 to 1, where 0 is bored and 1 is excited
             "playerEngagement": 0.5,
@@ -30,8 +19,10 @@ export const STORY_CONFIG2 = {
             
             // string, call-to-action or a hint for the player on what to do next. Use a suggestive tone (e.g. start with "You can ..." or "You might ..."). Don't suggest passive actions.
             "callToAction": ""
+
+            // string, additional story event that happens regardless of the player's input, in order to push the story forward. It migh be poetic, it might be surprising, or even very dramatic.
+            "storyEvent": ""
         }
-        \`\`\`
 
         You should limit the length of the output texts:
         "storyText" maximum length is 20 words. It can be changed by a system message.
@@ -59,37 +50,7 @@ export const STORY_CONFIG2 = {
     callToAction: 'What would you like to do now?',
 };
 
-/*
-* Here, in the backseat, You find yourself accompanying a man called Yehuda, returning from the distant shores of the United States
-
-Ask Yehuda where he is heading for
-
-Raindrops streak the windows as you inquire, 'Where to in this weather, Yehuda?'
-
-and what does Yehuda answers?
-
-He hesitates, 'To visit someone dear,' he says, his gaze lost in the rain.
-
-And who should that be?
-
-Yehuda sighs, 'My wife,' his voice tinged with a complex sorrow.
-
-What happend to her?
-
-Her mind turned frail,
-
-When was the last time you saw her?
-
-Five years ago, memories both bitter and sweet,
-
-Wow that's long ago. Why did you leave her?
-
-He looks away, 'Life... it's complicated.' His words are heavy with untold stories.
-
-And since then you where living all by yourself in the US?
-
-Not alone, a dear companion's by my side.
-*/
+export default STORY_CONFIG_1;
 
 /*
 From OpenAI prompt engineering documentation:
