@@ -1,1 +1,1 @@
-This project is a basic web client for chat-based stories.
+Chat-based stories, using LLM.

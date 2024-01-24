@@ -1,7 +1,10 @@
 {
-  "name": "llm-playground-web",
+  "name": "open-stories-client",
   "private": true,
   "version": "0.0.0",
+  "description": "Chat-based stories, using LLM.",
+  "author": "https://github.com/tsachw",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vite",
