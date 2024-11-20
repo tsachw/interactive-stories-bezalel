@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { STORY_CONFIG_DEV as storyConfig } from './story/story-config';
 import StoryBodyView from "./components/content-view/StoryBodyView";
 import PlayerInput from "./components/player-input/PlayerInput";
@@ -13,9 +13,24 @@ function App() {
         { role: 'assistant', content: storyConfig.callToAction }
     ]);
     const [apiStatus, setStatus] = useState('idle'); // 'idle' | 'loading' | 'error'
-    const [currentResponse, setCurrentResponse] = useState(null);
+    const response = useRef(null);
 
-    const handleInactivity = usePlayerInactivity(messages, setMessages, currentResponse);
+    // const handleInactivity = usePlayerInactivity(messages, setMessages, response);
+    function handleInactivity() {
+        if (response.current && (response.current.storyEvent || response.current.callToAction)) {
+            let newMessage;
+
+            if (Math.random() > 0.6) {
+                // Trigger an independent story event:
+                newMessage = { role: 'assistant', content: response.current.storyEvent };
+            } else {
+                // Apply call to action hint:
+                newMessage = { role: 'assistant', content: response.current.callToAction };
+            }
+
+            setMessages((messages) => [...messages, newMessage]);
+        }
+    }
 
     function handleSend(playerText) {
         const newMessages = [...messages];
@@ -30,7 +45,7 @@ function App() {
             }
 
             setStatus('idle');
-            setCurrentResponse(result);
+            response.current = result;
 
             if (result.storyText) {
                 newMessages.push({ role: 'assistant', content: result.storyText });

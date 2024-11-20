@@ -49,24 +49,23 @@ export function useHandleStoryResponse() {
     return handleStoryResponse;
 }
 
-export function usePlayerInactivity(messages, setMessages, response) {
+export function usePlayerInactivity(setMessages, response) {
     // If the player is idle for a long period, add some content or a hint to push the story forward.
-    const handlePlayerInactivity = useCallback(() => {
-        console.log('no input', response);
-        if (response !== null && (response.storyEvent || response.callToAction)) {
-            const newMessages = [...messages];
+
+    return () => {
+        console.log('no input', response.current);
+        if (response.current && (response.current.storyEvent || response.current.callToAction)) {
+            let newMessage;
 
             if (Math.random() > 0.6) {
                 // Trigger an independent story event:
-                newMessages.push({ role: 'assistant', content: response.storyEvent });
+                newMessage = { role: 'assistant', content: response.current.storyEvent };
             } else {
                 // Apply call to action hint:
-                newMessages.push({ role: 'assistant', content: response.callToAction });
+                newMessage = { role: 'assistant', content: response.current.callToAction };
             }
 
-            setMessages(newMessages);
+            setMessages((messages) => [...messages, newMessage]);
         }
-    }, [messages, response]);
-
-    return handlePlayerInactivity;
+    };
 }
