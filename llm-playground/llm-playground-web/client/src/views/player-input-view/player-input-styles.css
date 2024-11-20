@@ -1,0 +1,21 @@
+#player-box {
+    box-sizing: border-box;
+    width: 800px;
+    padding-bottom: 64px;
+    margin-inline: 24px;
+    max-width: 100%;
+    display: flex;
+    gap: 4px;
+}
+
+#player-text-input {
+    width: 100%;
+}
+
+@media only screen and (max-width: 600px) {
+    #player-box {
+        width: 100%;
+        padding-inline: 24px;
+        padding-bottom: 24px;
+    }
+}

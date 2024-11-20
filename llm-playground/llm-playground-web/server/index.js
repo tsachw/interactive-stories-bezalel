@@ -10,7 +10,7 @@ const app = express();
 const SETTINGS = {
 	PORT: process.env.PORT || 8080,
 	OPENAI_API_URL: process.env.OPENAI_API_URL || 'https://api.openai.com/v1/chat/completions',
-	OPENAI_API_MODEL: process.env.OPENAI_API_MODEL || 'gpt-4o-mini',
+	OPENAI_API_MODEL: process.env.OPENAI_API_MODEL || 'gpt-4o',
 };
 
 app.use(express.json());

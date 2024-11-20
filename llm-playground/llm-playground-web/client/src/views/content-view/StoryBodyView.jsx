@@ -1,11 +1,9 @@
 import { useEffect, useRef } from "react";
-import { useAppState } from "../../app-state/AppStateProvider"
-import scrollToBottom from "../../utils/scrollToBottom";
-import './story-body-styles.css'
 import LoadingDots from "../../components/LoadingDots";
+import scrollToBottom from "../../utils/scrollToBottom";
+import './story-body-styles.css';
 
-export default function StoryBodyView() {
-    const { messages, status } = useAppState();
+export default function StoryBodyView({ messages, status }) {
 
     const mainBodyContRef = useRef();
 
