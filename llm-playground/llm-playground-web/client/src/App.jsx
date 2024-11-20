@@ -1,9 +1,8 @@
 import { useRef, useState } from "react";
-import { STORY_CONFIG_DEV as storyConfig } from './story/story-config';
+import { postMessages } from "./api/story-api";
 import StoryBodyView from "./components/content-view/StoryBodyView";
 import PlayerInput from "./components/player-input/PlayerInput";
-import { postMessages } from "./api/story-api";
-import { usePlayerInactivity } from "./story/story-logic";
+import { STORY_CONFIG_DEV as storyConfig } from './story/story-config';
 
 function App() {
 
@@ -15,7 +14,10 @@ function App() {
     const [apiStatus, setStatus] = useState('idle'); // 'idle' | 'loading' | 'error'
     const response = useRef(null);
 
-    // const handleInactivity = usePlayerInactivity(messages, setMessages, response);
+    //@TODO: 
+    // try using state and effect for inacivity
+    // try storing response in a state and handle it in an effect instead of inside 'handleSent'
+
     function handleInactivity() {
         if (response.current && (response.current.storyEvent || response.current.callToAction)) {
             let newMessage;
