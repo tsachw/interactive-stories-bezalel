@@ -1,36 +1,81 @@
-const STORY_CONFIG_1 = {
-    name: 'On the Way to Closure',
+/**
+ * See OpenAI docs: https://platform.openai.com/docs/guides/structured-outputs#supported-schemas
+ * See JSON Schema docs: https://json-schema.org/understanding-json-schema
+ */
+export const responseSchema = {
+    name: 'story_schema',
+    strict: true,
+    schema: {
+        type: 'object',
+        properties: {
+            storyText: {
+                type: 'string',
+                description: `
+                    The story text to present to the player.
+                    Word count limitation is 20. It might change by a system message.
+                `,
+            },
+            callToAction: {
+                type: 'string',
+                description: `
+                    Call-to-action or a hint for the player on what to do next. 
+                    Use a suggestive tone (e.g. start with "You can ..." or "You might ..."). 
+                    Do not suggest passive actions.
+                    Enclose it with round brackets "(<callToAction)".
+                    Word count limitation is always 10.
+
+                `,
+            },
+            storyEvent: {
+                type: 'string',
+                description: `
+                    Additional story event that happens regardless of the player's input in order to push the story forward. 
+                    It migh be poetic, it might be surprising, or even very dramatic.
+                    Word count limitation is 50.
+                `,
+            },
+            goalProgress: {
+                type: 'number',
+                description:
+                    'float between 0 and 1. It represents how close is the player to reach his goal. 0 means not at all, 1 means the goal is achieved.',
+            },
+            playerEngagement: {
+                type: 'number',
+                description: 'float between 0 and 1, where 0 is bored and 1 is excited.',
+            },
+            playerSentiment: {
+                type: ['array', 'null'],
+                description:
+                    "Array of strings describing the player's emotional state, or null if it's not clear enough.",
+                items: {
+                    type: 'string',
+                    enum: ['joy', 'irritation', 'sadness', 'fear', 'surprise', 'disgust', 'empathy'],
+                },
+            },
+        },
+        required: ['storyText', 'callToAction', 'storyEvent', 'goalProgress', 'playerEngagement', 'playerSentiment'],
+        additionalProperties: false,
+    },
+};
+
+export const STORY_CONFIG_DEV = {
+    name: 'Dev Story',
     instructions: `
         You are an interactive fiction narrator. 
-        Craft brief yet vivid sentences that empower players to make choices and fuel their creativity. 
+        Craft vivid sentences that empower players to make choices and fuel their creativity, but keep them under the word count limitations.
+        
+        The player has to find out how the lake was colored pink.
+        Invent a hero. He should be witty.
+    `,
+    openingLine: `The lake water are pink.`,
+    callToAction: 'Why?',
+};
+export const STORY_CONFIG_1 = {
+    name: 'Shadows of the Kaminka Family',
+    instructions: `
+        You are an interactive fiction narrator. 
+        Craft vivid sentences that empower players to make choices and fuel their creativity. 
   
-        Provide your output in JSON format of this scheme:
-        {          
-            // string, the story text to present to the player. 
-            "storyText": "",
-            
-            // string, call-to-action or a hint for the player on what to do next. Use a suggestive tone (e.g. start with "You can ..." or "You might ..."). Don't suggest passive actions.
-            "callToAction": "",
-
-            // string, additional story event that happens regardless of the player's input, in order to push the story forward. It migh be poetic, it might be surprising, or even very dramatic.
-            "storyEvent": "",
-
-            // float between 0 and 1. It represents how close is the player to reach his goal. 0 means not at all, 1 means the goal is achieved.
-            "goalProgress": 0,
-
-            //float between 0 and 1, where 0 is bored and 1 is excited
-            "playerEngagement": 0.5,
-                        
-            // Array of strings describing the player's emotional state, or null if it's not clear enough: 
-            // ['joy' | 'irritation' | 'sadness' | 'fear' | 'surprise' | 'disgust' | 'empathy'] | null 
-            "playerSentiment": null,
-        }
-
-        You should limit the length of the output texts:
-        "storyText" maximum length is 20 words. It can be changed by a system message.
-        "callToAction" maximum lenghth is always 10 words.
-        "storyEvent" maximum length is 50 words.
-
         Base your output on the following backstory:
         "The hero of the story is Yehuda Kaminka.
         The Kaminka family consists of Naomi (Yehuda's institutionalized wife), and the couple's adult children (Tsvi, Asa, and Ya'el). 
@@ -53,8 +98,6 @@ const STORY_CONFIG_1 = {
     openingLine: `Here, in the backseat, You find yourself accompanying a man called Yehuda, returning from the distant shores of the United States. You're wondering what's his story.`,
     callToAction: 'What would you like to do now?',
 };
-
-export default STORY_CONFIG_1;
 
 /*
 From OpenAI prompt engineering documentation:

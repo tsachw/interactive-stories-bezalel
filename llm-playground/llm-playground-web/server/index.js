@@ -10,7 +10,7 @@ const app = express();
 const SETTINGS = {
 	PORT: process.env.PORT || 8080,
 	OPENAI_API_URL: process.env.OPENAI_API_URL || 'https://api.openai.com/v1/chat/completions',
-	OPENAI_API_MODEL: process.env.OPENAI_API_MODEL || 'gpt-4-1106-preview',
+	OPENAI_API_MODEL: process.env.OPENAI_API_MODEL || 'gpt-4o-mini',
 };
 
 app.use(express.json());
@@ -18,7 +18,7 @@ app.use(cors()); // In production, this should be configured to accept requests 
 
 app.post('/story-completions', async (req, res) => {
 	console.log('Got story-completions request from client');
-	const messages = req.body;
+	const { messages, responseSchema } = req.body;
 
 	try {
 		// Make sure we have the necessary data
@@ -34,7 +34,10 @@ app.post('/story-completions', async (req, res) => {
 				{
 					model: SETTINGS.OPENAI_API_MODEL,
 					messages: messages,
-					response_format: { type: 'json_object' },
+					response_format: {
+						type: 'json_schema',
+						json_schema: responseSchema,
+					},
 					temperature: 1, // deterministic 0-2 random
 				},
 				{

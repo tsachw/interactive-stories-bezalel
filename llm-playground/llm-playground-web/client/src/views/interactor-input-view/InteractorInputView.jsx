@@ -3,20 +3,26 @@ import { useAppState, useSetAppState } from "../../app-state/AppStateProvider";
 import "./interactor-input-styles.css";
 import { SETTINGS } from "../../../settings";
 import { useHandleStoryResponse } from "../../story/story-logic";
+import { responseSchema } from "../../story/story-config";
 
 export default function InteractorInputView() {
 
     const { messages, status, inputMessage } = useAppState();
     const setAppState = useSetAppState();
 
-
     const handleResponse = useHandleStoryResponse();
 
     const send = useCallback(() => {
-
-        const newMessages = [...messages, { role: 'user', content: inputMessage }];
+        const newMessages = [
+            ...messages,
+            { role: 'user', content: inputMessage }
+        ];
 
         setAppState({ messages: newMessages, status: 'loading', inputMessage: '' });
+
+        console.log(newMessages)
+        // const nextWordCount = Math.ceil(newMessages.length);
+        // const wordLimitMsg = { role: 'system', content: `next 'storyText' word count limitation is ${nextWordCount}.` }
 
         fetch(
             `${SETTINGS.SERVER_URL}/story-completions`,
@@ -25,14 +31,17 @@ export default function InteractorInputView() {
                 headers: {
                     'content-type': 'application/json',
                 },
-                body: JSON.stringify(newMessages)
+                body: JSON.stringify({
+                    responseSchema: responseSchema,
+                    messages: newMessages
+                    // messages: [...newMessages, wordLimitMsg]
+                })
             }
         ).then(response => response.json()
         ).then(data => {
             try {
                 let storytellerResponse = data.choices[0].message.content;
                 storytellerResponse = JSON.parse(storytellerResponse);
-
                 setAppState({ status: 'idle' });
                 handleResponse(newMessages, storytellerResponse);
 

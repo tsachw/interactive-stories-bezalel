@@ -16,8 +16,9 @@ export function useHandleStoryResponse() {
 
         const newMessages = [...messages];
 
+        // console.log(messages);
         // Test modifying the words limit:
-        // if (!isNaN(parseInt(newMessage))) {
+        // if (...) {
         //     newMessages.push({ role: 'system', content: `Your next storyText output has maximum length of ${newMessage} words.` })
         // }
 
@@ -32,15 +33,13 @@ export function useHandleStoryResponse() {
 
         // If the player is idle for a long period, add some content or a hint to push the story forward.
         idleTimer.current = new Timer(15000, () => {
-            if (response.storyEvent && Math.random() > 0.7) {
+            if (Math.random() > 0.6) {
                 // Trigger an independent story event:
                 newMessages.push({ role: 'assistant', content: response.storyEvent });
                 setAppState({ messages: [...newMessages] });
-            }
-
-            if (response.callToAction) {
+            } else {
                 // Apply call to action hint:
-                newMessages.push({ role: 'assistant', content: `(${response.callToAction})` });
+                newMessages.push({ role: 'assistant', content: response.callToAction });
                 setAppState({ messages: [...newMessages] });
             }
         });

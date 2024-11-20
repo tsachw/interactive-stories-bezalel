@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, Dispatch, SetStateAction, PropsWithChildren } from "react"
-import storyConfig from '../story/story-config';
+import { STORY_CONFIG_DEV as storyConfig } from '../story/story-config';
 
 export type Message = {
     role: 'system' | 'user' | 'assistant',
