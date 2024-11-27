@@ -21,7 +21,7 @@ function App() {
 
     function handleInactivity() {
         if (!response) return;
-        // console.log('engagement:', response.playerEngagement);
+
         if (response.playerEngagement <= 0.6) {
             // Trigger an independent story event:
             addMessage({ role: 'assistant', content: response.storyEvent });
@@ -40,13 +40,13 @@ function App() {
         postMessages(newMessages, handleResponse);
     }
 
-    function handleResponse(res, error) {
-        if (!res || error) {
+    function handleResponse({ messages, response, error }) {
+        if (!response || error) {
             setStatus('error');
             return;
         }
 
-        addMessage({ role: 'assistant', content: res.storyText });
+        addMessage({ role: 'assistant', content: response.storyText });
 
         if (storyShouldEnd) {
             setStatus('ended');
@@ -55,7 +55,7 @@ function App() {
         }
 
         setStatus('idle');
-        setResponse(res);
+        setResponse(response);
 
         // Example: reacting to player sentiment:
         // console.log(res.playerSentiment);
@@ -63,9 +63,11 @@ function App() {
         //     addMessage({ role: 'system', content: `The following storyText should make the player laugh.` })
         // }
 
+        console.log('engagement:', response.playerEngagement);
+
         // Ending condition:
-        // console.log('goal progress: ', res.goalProgress);
-        if (res.goalProgress >= 0.9) {
+        console.log('goal progress: ', response.goalProgress);
+        if (response.goalProgress >= 0.9) {
             addMessage({ role: 'system', content: `The following storyText should end the story. Use up to 50 words to write an epilogue.` })
             setStoryShouldEnd(true);
         }

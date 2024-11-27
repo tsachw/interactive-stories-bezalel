@@ -6,9 +6,14 @@ type Message = {
     content: string
 }
 
+type ResultObject = {
+    response?: object
+    error?: string
+}
+
 export function postMessages(
     messages: Message[],
-    onResponse: (result: object | null, error: string | null) => void
+    onResponse: (result: ResultObject) => void
 ) {
     fetch(`${SETTINGS.SERVER_URL}/story-completions`, {
         method: 'POST',
@@ -20,17 +25,17 @@ export function postMessages(
             messages
         }),
     })
-        .then((response) => {
-            if (!response.ok) {
-                throw response.statusText;
+        .then((res) => {
+            if (!res.ok) {
+                throw res.statusText;
             }
-            return response.json();
+            return res.json();
         })
         .then((data) => {
             try {
-                let result = data.choices[0].message.content;
-                result = JSON.parse(result);
-                onResponse(result, null);
+                const responseStr = data.choices[0].message.content;
+                const response = JSON.parse(responseStr);
+                onResponse({ response });
             } catch {
                 (err: string) => {
                     throw err;
@@ -39,6 +44,6 @@ export function postMessages(
         })
         .catch((err) => {
             console.error('Api error. Details: ', err);
-            onResponse(null, err);
+            onResponse({ error: err });
         });
 }
