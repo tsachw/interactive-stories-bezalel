@@ -5,7 +5,12 @@ import Timer from "../../utils/timer";
 export default function PlayerInput({ apiStatus, onSend, onInactivity }) {
 
     const [text, setText] = useState('');
-    const timer = useRef(new Timer(5000, onInactivity)); // Trigger inactivity callback after X milliseconds
+    const timer = useRef(new Timer(5000)); // Trigger inactivity timeout after X milliseconds
+
+    useEffect(() => {
+        // Update the inactivity timer callback:
+        timer.current.callBack = onInactivity;
+    }, [onInactivity])
 
     useEffect(() => {
         if (apiStatus === 'idle') {

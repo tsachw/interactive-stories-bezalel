@@ -18,7 +18,7 @@ app.use(cors()); // In production, this should be configured to accept requests 
 
 app.post('/story-completions', async (req, res) => {
 	console.log('Got story-completions request from client');
-	const { messages, responseSchema } = req.body;
+	const { messages, responseSchema, temperature = 1 } = req.body;
 
 	try {
 		// Make sure we have the necessary data
@@ -27,7 +27,7 @@ app.post('/story-completions', async (req, res) => {
 		}
 		// TODO: handle other possible errors regarding the received data.
 
-		// Call OpenAI GPT API
+		// Call OpenAI API
 		const response = await axios
 			.post(
 				SETTINGS.OPENAI_API_URL,
@@ -38,7 +38,7 @@ app.post('/story-completions', async (req, res) => {
 						type: 'json_schema',
 						json_schema: responseSchema,
 					},
-					temperature: 1, // deterministic 0-2 random
+					temperature,
 				},
 				{
 					headers: {

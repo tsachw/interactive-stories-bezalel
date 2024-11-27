@@ -1,12 +1,10 @@
-import { useEffect, useRef } from 'react';
+let startTime: number | null = null;
+let currentAnim: number | null = null;
 
-let startTime = null;
-let currentAnim = null;
-
-function animateScroll(element, timestamp, start, change, duration) {
+function animateScroll(element: HTMLElement, timestamp: number, start: number, change: number, duration: number) {
     const currentTime = timestamp;
     if (!startTime) startTime = currentTime;
-    const easing = (time) => 1 - Math.pow(time - 1, 4); // Quadratic ease-out
+    const easing = (time: number) => 1 - Math.pow(time - 1, 4); // Quadratic ease-out
 
     const timeElapsed = currentTime - startTime;
     const percentageComplete = timeElapsed / duration;
@@ -25,7 +23,7 @@ function animateScroll(element, timestamp, start, change, duration) {
     }
 }
 
-export default function scrollToBottom(element) {
+export default function scrollToBottom(element: HTMLElement) {
     if (!element || currentAnim) return;
     const start = element.scrollTop;
     const change = element.scrollHeight - element.clientHeight - start;

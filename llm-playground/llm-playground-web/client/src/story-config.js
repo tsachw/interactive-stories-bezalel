@@ -60,6 +60,7 @@ export const responseSchema = {
 
 export const STORY_CONFIG_DEV = {
     name: 'Dev Story',
+    temperature: 1, // 0: deterministic <-> 2: random
     instructions: `
         You are an interactive fiction narrator. 
         Craft vivid sentences that empower players to make choices and fuel their creativity, but keep them under the word count limitations.

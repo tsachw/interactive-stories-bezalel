@@ -1,8 +1,8 @@
-import { useRef, useState } from "react";
-import { postMessages } from "./api/story-api";
+import { useState } from "react";
+import { postMessages } from "./story-api";
 import StoryBodyView from "./components/content-view/StoryBodyView";
 import PlayerInput from "./components/player-input/PlayerInput";
-import { STORY_CONFIG_DEV as storyConfig } from './story/story-config';
+import { STORY_CONFIG_DEV as storyConfig } from './story-config';
 
 function App() {
 
@@ -12,25 +12,21 @@ function App() {
         { role: 'assistant', content: storyConfig.callToAction }
     ]);
     const [apiStatus, setStatus] = useState('idle'); // 'idle' | 'loading' | 'error'
-    const response = useRef(null);
+    const [response, setResponse] = useState(null); // see responseSchema @ story-config
 
-    //@TODO: 
-    // try using state and effect for inacivity
-    // try storing response in a state and handle it in an effect instead of inside 'handleSent'
+    function addMessage(newMsg) {
+        setMessages(currentMsgs => [...currentMsgs, newMsg])
+    }
 
     function handleInactivity() {
-        if (response.current && (response.current.storyEvent || response.current.callToAction)) {
-            let newMessage;
+        if (!response) return;
 
-            if (Math.random() > 0.6) {
-                // Trigger an independent story event:
-                newMessage = { role: 'assistant', content: response.current.storyEvent };
-            } else {
-                // Apply call to action hint:
-                newMessage = { role: 'assistant', content: response.current.callToAction };
-            }
-
-            setMessages((messages) => [...messages, newMessage]);
+        if (Math.random() > 0.6) {
+            // Trigger an independent story event:
+            addMessage({ role: 'assistant', content: response.storyEvent });
+        } else {
+            // Apply call to action hint:
+            addMessage({ role: 'assistant', content: response.callToAction });
         }
     }
 
@@ -40,23 +36,27 @@ function App() {
         setMessages(newMessages);
 
         setStatus('loading');
-        postMessages(newMessages, (result, error) => {
-            if (!result || error) {
-                setStatus('error');
-                return;
-            }
+        postMessages(newMessages, handleResponse);
+    }
 
-            setStatus('idle');
-            response.current = result;
+    function handleResponse(result, error) {
+        if (!result || error) {
+            setStatus('error');
+            return;
+        }
 
-            if (result.storyText) {
-                newMessages.push({ role: 'assistant', content: result.storyText });
-                setMessages(newMessages);
+        setStatus('idle');
+        setResponse(result);
+        addMessage({ role: 'assistant', content: result.storyText });
 
-                // TODO: end story with a long closing paragraph, and 'THE END' message.
-                console.log('goal progress: ', result.goalProgress);
-            }
-        });
+        // Test modifying the words limit:
+        // if (...) {
+        //     newMessages.push({ role: 'system', content: `Your next storyText output has maximum length of ${newMessage} words.` })
+        // }
+
+        // TODO: end story with a long closing paragraph, and 'THE END' message.
+        console.log('goal progress: ', result.goalProgress);
+
     }
 
     return (

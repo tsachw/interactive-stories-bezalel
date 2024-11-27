@@ -1,12 +1,15 @@
-import { SETTINGS } from '../../settings';
-import { responseSchema } from '../story/story-config';
+import { SETTINGS } from '../settings';
+import { responseSchema, STORY_CONFIG_DEV } from './story-config';
 
-/**
- *
- * @param {{role:string,content:string}[]} messages
- * @param {(result?:object,error?: string)=>void} onResponse
- */
-export function postMessages(messages, onResponse) {
+type Message = {
+    role: 'system' | 'assistant' | 'user'
+    content: string
+}
+
+export function postMessages(
+    messages: Message[],
+    onResponse: (result: object | null, error: string | null) => void
+) {
     fetch(`${SETTINGS.SERVER_URL}/story-completions`, {
         method: 'POST',
         headers: {
@@ -14,6 +17,7 @@ export function postMessages(messages, onResponse) {
         },
         body: JSON.stringify({
             responseSchema: responseSchema,
+            temperature: STORY_CONFIG_DEV.temperature,
             messages,
         }),
     })
@@ -29,7 +33,7 @@ export function postMessages(messages, onResponse) {
                 result = JSON.parse(result);
                 onResponse(result, null);
             } catch {
-                (err) => {
+                (err: string) => {
                     throw err;
                 };
             }
