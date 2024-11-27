@@ -34,23 +34,23 @@ export const responseSchema = {
                     Word count limitation is 50.
                 `,
             },
-            goalProgress: {
-                type: 'number',
-                description:
-                    'float between 0 and 1. It represents how close is the player to reach his goal. 0 means not at all, 1 means the goal is achieved.',
-            },
             playerEngagement: {
                 type: 'number',
                 description: 'float between 0 and 1, where 0 is bored and 1 is excited.',
             },
             playerSentiment: {
-                type: ['array', 'null'],
+                type: 'array',
                 description:
                     "Array of strings describing the player's emotional state, or null if it's not clear enough.",
                 items: {
                     type: 'string',
-                    enum: ['joy', 'irritation', 'sadness', 'fear', 'surprise', 'disgust', 'empathy'],
+                    enum: ['ambiguous', 'joy', 'irritation', 'sadness', 'fear', 'surprise', 'disgust', 'empathy'],
                 },
+            },
+            goalProgress: {
+                type: 'number',
+                description:
+                    'float between 0 and 1. It represents how close is the player to reach his goal. 0 means not at all, 1 means the goal is achieved.',
             },
         },
         required: ['storyText', 'callToAction', 'storyEvent', 'goalProgress', 'playerEngagement', 'playerSentiment'],
@@ -60,16 +60,14 @@ export const responseSchema = {
 
 export const STORY_CONFIG_DEV = {
     name: 'Dev Story',
-    temperature: 1, // 0: deterministic <-> 2: random
     instructions: `
         You are an interactive fiction narrator. 
         Craft vivid sentences that empower players to make choices and fuel their creativity, but keep them under the word count limitations.
         
-        The player has to find out how the lake was colored pink.
-        Invent a hero. He should be witty.
+        The player must count to 7. Prompt them naturally within the story flow.
     `,
-    openingLine: `The lake water are pink.`,
-    callToAction: 'Why?',
+    openingLine: `A towering oak sways gently, birds flitting between its branches.`,
+    callToAction: 'You may count them!',
 };
 export const STORY_CONFIG_1 = {
     name: 'Shadows of the Kaminka Family',

@@ -1,5 +1,5 @@
 import { SETTINGS } from '../settings';
-import { responseSchema, STORY_CONFIG_DEV } from './story-config';
+import { responseSchema } from './story-config';
 
 type Message = {
     role: 'system' | 'assistant' | 'user'
@@ -17,8 +17,7 @@ export function postMessages(
         },
         body: JSON.stringify({
             responseSchema: responseSchema,
-            temperature: STORY_CONFIG_DEV.temperature,
-            messages,
+            messages
         }),
     })
         .then((response) => {

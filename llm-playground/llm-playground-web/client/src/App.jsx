@@ -11,8 +11,9 @@ function App() {
         { role: 'assistant', content: storyConfig.openingLine },
         { role: 'assistant', content: storyConfig.callToAction }
     ]);
-    const [apiStatus, setStatus] = useState('idle'); // 'idle' | 'loading' | 'error'
+    const [apiStatus, setStatus] = useState('idle'); // 'idle' | 'loading' | 'ended' | 'error'
     const [response, setResponse] = useState(null); // see responseSchema @ story-config
+    const [storyShouldEnd, setStoryShouldEnd] = useState(false);
 
     function addMessage(newMsg) {
         setMessages(currentMsgs => [...currentMsgs, newMsg])
@@ -20,8 +21,8 @@ function App() {
 
     function handleInactivity() {
         if (!response) return;
-
-        if (Math.random() > 0.6) {
+        // console.log('engagement:', response.playerEngagement);
+        if (response.playerEngagement <= 0.6) {
             // Trigger an independent story event:
             addMessage({ role: 'assistant', content: response.storyEvent });
         } else {
@@ -39,23 +40,35 @@ function App() {
         postMessages(newMessages, handleResponse);
     }
 
-    function handleResponse(result, error) {
-        if (!result || error) {
+    function handleResponse(res, error) {
+        if (!res || error) {
             setStatus('error');
             return;
         }
 
-        setStatus('idle');
-        setResponse(result);
-        addMessage({ role: 'assistant', content: result.storyText });
+        addMessage({ role: 'assistant', content: res.storyText });
 
-        // Test modifying the words limit:
-        // if (...) {
-        //     newMessages.push({ role: 'system', content: `Your next storyText output has maximum length of ${newMessage} words.` })
+        if (storyShouldEnd) {
+            setStatus('ended');
+            addMessage({ role: 'assistant', content: 'THE END.' });
+            return;
+        }
+
+        setStatus('idle');
+        setResponse(res);
+
+        // Example: reacting to player sentiment:
+        // console.log(res.playerSentiment);
+        // if (res.playerSentiment.includes('sadness')) {
+        //     addMessage({ role: 'system', content: `The following storyText should make the player laugh.` })
         // }
 
-        // TODO: end story with a long closing paragraph, and 'THE END' message.
-        console.log('goal progress: ', result.goalProgress);
+        // Ending condition:
+        // console.log('goal progress: ', res.goalProgress);
+        if (res.goalProgress >= 0.9) {
+            addMessage({ role: 'system', content: `The following storyText should end the story. Use up to 50 words to write an epilogue.` })
+            setStoryShouldEnd(true);
+        }
 
     }
 

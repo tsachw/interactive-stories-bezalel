@@ -5,7 +5,7 @@ import Timer from "../../utils/timer";
 export default function PlayerInput({ apiStatus, onSend, onInactivity }) {
 
     const [text, setText] = useState('');
-    const timer = useRef(new Timer(5000)); // Trigger inactivity timeout after X milliseconds
+    const timer = useRef(new Timer(10000)); // Trigger inactivity timeout after X milliseconds
 
     useEffect(() => {
         // Update the inactivity timer callback:
@@ -25,6 +25,10 @@ export default function PlayerInput({ apiStatus, onSend, onInactivity }) {
         setText('');
     }
 
+    function restart() {
+        window.location.reload();
+    }
+
     function handleInput(event) {
         const value = event.target.value;
         setText(value);
@@ -36,25 +40,31 @@ export default function PlayerInput({ apiStatus, onSend, onInactivity }) {
         }
     }
 
-    return (
-        <div
-            id="player-box"
-            style={{
-                opacity: apiStatus === 'loading' ? 0.3 : 1,
-                pointerEvents: apiStatus === 'loading' ? 'none' : 'auto',
-                color: apiStatus === 'error' ? 'red' : 'auto'
-            }}
-        >
-            <input
-                id="player-text-input"
-                value={text}
-                onKeyDown={e => { if (e.key === 'Enter') send() }}
-                onChange={handleInput}
-            />
-            <button onClick={send}>Send</button>
-            {
-                apiStatus === 'error' && 'Something is broken 😵‍💫'
-            }
-        </div>
-    )
+    if (apiStatus !== 'ended') {
+        return (
+            <div
+                id="player-box"
+                style={{
+                    opacity: apiStatus === 'loading' ? 0.3 : 1,
+                    pointerEvents: apiStatus === 'loading' ? 'none' : 'auto',
+                    color: apiStatus === 'error' ? 'red' : 'auto'
+                }}
+            >
+                <input
+                    id="player-text-input"
+                    value={text}
+                    onKeyDown={e => { if (e.key === 'Enter') send() }}
+                    onChange={handleInput}
+                />
+                <button onClick={send}>Send</button>
+                {
+                    apiStatus === 'error' && 'Something is broken 😵‍💫'
+                }
+            </div>
+        )
+    } else {
+        return (<div id="player-box">
+            <button onClick={restart}>Restart</button>
+        </div>)
+    }
 }

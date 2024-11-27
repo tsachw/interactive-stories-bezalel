@@ -18,7 +18,7 @@ app.use(cors()); // In production, this should be configured to accept requests 
 
 app.post('/story-completions', async (req, res) => {
 	console.log('Got story-completions request from client');
-	const { messages, responseSchema, temperature = 1 } = req.body;
+	const { messages, responseSchema } = req.body;
 
 	try {
 		// Make sure we have the necessary data
@@ -38,7 +38,7 @@ app.post('/story-completions', async (req, res) => {
 						type: 'json_schema',
 						json_schema: responseSchema,
 					},
-					temperature,
+					temperature: 1, // 0: deterministic <-> 2: random
 				},
 				{
 					headers: {
