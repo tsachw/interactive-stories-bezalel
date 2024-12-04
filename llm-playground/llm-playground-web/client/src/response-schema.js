@@ -19,9 +19,11 @@ export const responseSchema = {
                 type: 'string',
                 description: `
                     Call-to-action or a hint for the player on what to do next. 
-                    Use a suggestive tone (e.g. start with "You can ..." or "You might ..."). 
+                    Encourage the player to be inventive and creative. 
+                    Do not suggest trivial actions.
                     Do not suggest passive actions.
-                    Enclose it with round brackets "(<callToAction)".
+                    Use a suggestive tone (e.g. start with "You can ..." or "You might ..."). 
+                    Enclose it with round brackets "(callToAction)".
                     Word count limitation is always 10.
 
                 `,

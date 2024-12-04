@@ -2,8 +2,9 @@ import { useState } from "react";
 import { postMessages } from "./story-api";
 import StoryBodyView from "./components/content-view/StoryBodyView";
 import PlayerInput from "./components/player-input/PlayerInput";
-// import { CONFIG as storyConfig } from './story-config';
-import { CONFIG as storyConfig } from './examples/story-config-01-birdwatching';
+// import { storyConfig } from './story-config';
+// import { storyConfig } from './examples/story-config-01-birdwatching';
+import { storyConfig } from './examples/story-config-02-a-late-divorce';
 
 function App() {
 
@@ -58,16 +59,16 @@ function App() {
         setStatus('idle');
         setResponse(response);
 
-        // Example: reacting to player sentiment:
         // console.log(res.playerSentiment);
+        console.log('engagement:', response.playerEngagement);
+        console.log('goal progress: ', response.goalProgress);
+
+        // Example: reacting to player sentiment:
         // if (res.playerSentiment.includes('sadness')) {
         //     addMessage({ role: 'system', content: `The following storyText should make the player laugh.` })
         // }
 
-        console.log('engagement:', response.playerEngagement);
-
         // Ending condition:
-        console.log('goal progress: ', response.goalProgress);
         if (response.goalProgress >= 0.9) {
             addMessage({ role: 'system', content: `The following storyText should end the story. Use up to 50 words to write an epilogue.` })
             setStoryShouldEnd(true);
