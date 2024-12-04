@@ -2,17 +2,18 @@ import { useState } from "react";
 import { postMessages } from "./story-api";
 import StoryBodyView from "./components/content-view/StoryBodyView";
 import PlayerInput from "./components/player-input/PlayerInput";
-import { STORY_CONFIG_DEV as storyConfig } from './story-config';
+// import { CONFIG as storyConfig } from './story-config';
+import { CONFIG as storyConfig } from './examples/story-config-01-birdwatching';
 
 function App() {
 
     const [messages, setMessages] = useState([
         { role: 'system', content: storyConfig.instructions },
         { role: 'assistant', content: storyConfig.openingLine },
-        { role: 'assistant', content: storyConfig.callToAction }
+        { role: 'assistant', content: storyConfig.firstCallToAction }
     ]);
     const [apiStatus, setStatus] = useState('idle'); // 'idle' | 'loading' | 'ended' | 'error'
-    const [response, setResponse] = useState(null); // see responseSchema @ story-config
+    const [response, setResponse] = useState(null); // see responseSchema @ response-schema
     const [storyShouldEnd, setStoryShouldEnd] = useState(false);
 
     function addMessage(newMsg) {

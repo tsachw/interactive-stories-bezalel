@@ -1,5 +1,5 @@
 import { SETTINGS } from '../settings';
-import { responseSchema } from './story-config';
+import { responseSchema } from './response-schema';
 
 type Message = {
     role: 'system' | 'assistant' | 'user'
