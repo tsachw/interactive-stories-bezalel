@@ -45,18 +45,25 @@ export default function PlayerInput({ apiStatus, onSend, onInactivity }) {
             <div
                 id="player-box"
                 style={{
-                    opacity: apiStatus === 'loading' ? 0.3 : 1,
                     pointerEvents: apiStatus === 'loading' ? 'none' : 'auto',
                     color: apiStatus === 'error' ? 'red' : 'auto'
                 }}
             >
                 <input
                     id="player-text-input"
+                    style={{
+                        opacity: apiStatus === 'loading' ? 0.3 : 1,
+                    }}
                     value={text}
                     onKeyDown={e => { if (e.key === 'Enter') send() }}
                     onChange={handleInput}
                 />
-                <button onClick={send}>Send</button>
+                <button
+                    disabled={apiStatus !== 'idle'}
+                    onClick={send}
+                >
+                    Send
+                </button>
                 {
                     apiStatus === 'error' && 'Something is broken 😵‍💫'
                 }
