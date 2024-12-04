@@ -10,7 +10,7 @@ const app = express();
 const SETTINGS = {
 	PORT: process.env.PORT || 8080,
 	OPENAI_API_URL: process.env.OPENAI_API_URL || 'https://api.openai.com/v1/chat/completions',
-	OPENAI_API_MODEL: process.env.OPENAI_API_MODEL || 'gpt-4o-mini',
+	OPENAI_API_MODEL: process.env.OPENAI_API_MODEL || 'gpt-4o',
 };
 
 app.use(express.json());
@@ -27,7 +27,7 @@ app.post('/story-completions', async (req, res) => {
 		}
 		// TODO: handle other possible errors regarding the received data.
 
-		// Call OpenAI GPT API
+		// Call OpenAI API
 		const response = await axios
 			.post(
 				SETTINGS.OPENAI_API_URL,
@@ -38,7 +38,7 @@ app.post('/story-completions', async (req, res) => {
 						type: 'json_schema',
 						json_schema: responseSchema,
 					},
-					temperature: 1, // deterministic 0-2 random
+					temperature: 1, // 0: deterministic <-> 2: random
 				},
 				{
 					headers: {

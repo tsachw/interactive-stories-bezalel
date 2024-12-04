@@ -1,10 +1,8 @@
-#main-body-cont {
+#main-cont {
     margin-top: 32px;
-    height: 100%;
+    padding-bottom: 120px;
     width: 100%;
     box-sizing: border-box;
-    overflow-y: scroll;
-    margin-bottom: 4px;
     padding-inline: 24px;
     display: flex;
     flex-direction: column;
@@ -18,17 +16,14 @@
 
 .message-assistant {
     color: #666;
-    font-style: italic;
+    font-family: 'EB Garamond', serif;
+    font-size: 1.125em;
 }
 
 .message-user {
-    font-family: sans-serif;
-    color: #0c1b71;
-}
-
-.call-to-action {
-    font-family: sans-serif;
-    color: #aaa;
+    font-family: 'Inter', sans-serif;
+    font-optical-sizing: auto;
+    color: #191d34;
 }
 
 @media only screen and (max-width: 600px) {

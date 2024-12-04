@@ -1,23 +1,59 @@
 html {
     font-size: 150%;
+    font-family: 'EB Garamond', serif;
+    font-optical-sizing: auto;
+    --main-bg-color: #f2eeee;
+    --light-blue: #626a95;
+    --medium-blue: #4b5177;
+    --dark-blue: #191d34;
+    background-color: var(--main-bg-color);
 }
 
 body {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
     padding: 0;
     margin: 0;
-
     display: flex;
     justify-content: center;
 }
 
-input,
+:focus {
+    box-shadow: 0 0 0 3px var(--light-blue);
+}
+
+input {
+    font-size: 1em;
+    font-family: 'Inter', sans-serif;
+}
+
 button {
     font-size: 1em;
+    font-family: 'Inter', sans-serif;
+
+    font-weight: 400;
+    outline: none;
+    border: none;
+    background-color: var(--dark-blue);
+    color: white;
+}
+button:hover {
+    cursor: pointer;
+    background-color: var(--medium-blue);
+}
+button:active {
+    background-color: var(--light-blue);
+}
+button:disabled {
+    opacity: 0.3;
+}
+
+h1 {
+    margin-top: 64px;
+    color: var(--dark-blue);
+    font-weight: 800;
+}
+
+p {
+    margin-top: 0px;
 }
 
 #root {
@@ -28,4 +64,10 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+@media only screen and (max-width: 600px) {
+    h1 {
+        font-size: 1.5em;
+    }
 }
