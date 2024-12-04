@@ -4,6 +4,7 @@ import Timer from "../../utils/timer";
 
 export default function PlayerInput({ apiStatus, onSend, onInactivity }) {
 
+    const inputRef = useRef();
     const [text, setText] = useState('');
     const timer = useRef(new Timer(15000)); // Trigger inactivity timeout after X milliseconds
 
@@ -15,14 +16,17 @@ export default function PlayerInput({ apiStatus, onSend, onInactivity }) {
     useEffect(() => {
         if (apiStatus === 'idle') {
             timer.current?.start();
+            inputRef.current?.focus();
         } else {
             timer.current?.cancel();
         }
     }, [apiStatus])
 
     function send() {
-        onSend(text);
-        setText('');
+        if (text != '') {
+            onSend(text);
+            setText('');
+        }
     }
 
     function restart() {
@@ -51,19 +55,19 @@ export default function PlayerInput({ apiStatus, onSend, onInactivity }) {
             >
                 <input
                     id="player-text-input"
-                    style={{
-                        opacity: apiStatus === 'loading' ? 0.3 : 1,
-                    }}
+                    ref={inputRef}
+                    disabled={apiStatus === 'loading'}
                     value={text}
                     onKeyDown={e => { if (e.key === 'Enter') send() }}
                     onChange={handleInput}
                 />
                 <button
-                    disabled={apiStatus !== 'idle'}
+                    id="send-button"
+                    disabled={!text || apiStatus === 'loading'}
                     onClick={send}
                 >
-                    Send
-                </button>
+                    →
+                </button >
                 {
                     apiStatus === 'error' && 'Something is broken 😵‍💫'
                 }
@@ -71,7 +75,7 @@ export default function PlayerInput({ apiStatus, onSend, onInactivity }) {
         )
     } else {
         return (<div id="player-box">
-            <button onClick={restart}>Restart</button>
+            <button id="restart-button" onClick={restart}>Restart</button>
         </div>)
     }
 }

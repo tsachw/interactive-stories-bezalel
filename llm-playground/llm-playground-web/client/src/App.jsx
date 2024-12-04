@@ -78,9 +78,9 @@ function App() {
 
     return (
         <>
-            <h3>
+            <h1>
                 {storyConfig.name || 'Open Story'}
-            </h3>
+            </h1>
             <StoryBodyView apiStatus={apiStatus} messages={messages} />
             <PlayerInput
                 apiStatus={apiStatus}

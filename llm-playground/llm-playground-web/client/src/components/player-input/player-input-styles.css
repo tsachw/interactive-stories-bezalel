@@ -7,12 +7,33 @@
     margin-inline: 24px;
     max-width: 100%;
     display: flex;
-    gap: 4px;
     background-color: var(--main-bg-color);
+    --corners: 8px;
 }
 
 #player-text-input {
     width: 100%;
+    outline: none;
+    border: none;
+    border-radius: var(--corners) 0 0 var(--corners);
+    background-color: #fefefe;
+    padding: 8px 12px;
+}
+
+#player-text-input:disabled {
+    opacity: 0.5;
+}
+
+#send-button {
+    width: 48px;
+    height: 48px;
+    font-weight: 600;
+    border-radius: 0 var(--corners) var(--corners) 0;
+}
+
+#restart-button {
+    padding: 8px 12px;
+    border-radius: var(--corners);
 }
 
 @media only screen and (max-width: 600px) {
