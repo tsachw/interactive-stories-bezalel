@@ -6,6 +6,7 @@ html {
     --light-blue: #626a95;
     --medium-blue: #4b5177;
     --dark-blue: #191d34;
+    --mobile-width: 800px;
     background-color: var(--main-bg-color);
 }
 
@@ -66,8 +67,11 @@ p {
     align-items: center;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
     h1 {
         font-size: 1.5em;
+    }
+    p {
+        font-size: 80%;
     }
 }

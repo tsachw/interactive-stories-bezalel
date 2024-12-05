@@ -6,18 +6,24 @@
     padding-bottom: 64px;
     margin-inline: 24px;
     max-width: 100%;
-    display: flex;
+    /* display: inline-block; */
     background-color: var(--main-bg-color);
+    --input-height: 48px;
+    --button-size: 40px;
     --corners: 8px;
 }
 
 #player-text-input {
     width: 100%;
+    height: var(--input-height);
     outline: none;
     border: none;
-    border-radius: var(--corners) 0 0 var(--corners);
+    box-sizing: border-box;
+    /* border-radius: var(--corners) 0 0 var(--corners); */
+    border-radius: var(--corners);
     background-color: #fefefe;
-    padding: 8px 12px;
+    padding-inline-start: 16px;
+    padding-inline-end: calc(var(--button-size) + 16px);
 }
 
 #player-text-input:disabled {
@@ -25,10 +31,15 @@
 }
 
 #send-button {
-    width: 48px;
-    height: 48px;
+    --gap: calc(0.5 * (var(--input-height) - var(--button-size)));
+    position: absolute;
+    top: var(--gap);
+    inset-inline-end: var(--gap);
+    width: var(--button-size);
+    height: var(--button-size);
     font-weight: 600;
-    border-radius: 0 var(--corners) var(--corners) 0;
+    /* border-radius: 0 var(--corners) var(--corners) 0; */
+    border-radius: var(--corners);
 }
 
 #restart-button {
@@ -36,10 +47,10 @@
     border-radius: var(--corners);
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
     #player-box {
-        width: 100%;
-        padding-inline: 24px;
+        width: calc(100vw - 48px);
+        /* padding-inline: 24px; */
         padding-bottom: 24px;
     }
 }

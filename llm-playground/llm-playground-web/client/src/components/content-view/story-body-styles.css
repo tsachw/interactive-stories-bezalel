@@ -17,7 +17,7 @@
 .message-assistant {
     color: #666;
     font-family: 'EB Garamond', serif;
-    font-size: 1.125em;
+    font-size-adjust: 0.5;
 }
 
 .message-user {
@@ -26,7 +26,7 @@
     color: #191d34;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
     #text-column-cont {
         width: 100%;
     }
