@@ -1,12 +1,27 @@
+:root {
+    --main-bg-color: #f2eeee;
+    --dark-blue: #191d34;
+    --medium-blue: #4b5177;
+    --light-blue: #626a95;
+
+    /*
+    --dark-red: #371625;
+    --medium-red: #8b3d50;
+    --light-red: #cb8d9f;
+    */
+
+    --primary-dark: var(--dark-blue);
+    --primary-medium: var(--medium-blue);
+    --primary-light: var(--light-blue);
+
+    --mobile-width: 800px;
+}
+
 html {
     font-size: 150%;
-    font-family: 'EB Garamond', serif;
+    font-family: 'EB Garamond', 'David Libre', serif;
+    font-weight: 400;
     font-optical-sizing: auto;
-    --main-bg-color: #f2eeee;
-    --light-blue: #626a95;
-    --medium-blue: #4b5177;
-    --dark-blue: #191d34;
-    --mobile-width: 800px;
     background-color: var(--main-bg-color);
 }
 
@@ -18,12 +33,12 @@ body {
 }
 
 :focus {
-    box-shadow: 0 0 0 3px var(--light-blue);
+    box-shadow: 0 0 0 3px var(--primary-light);
 }
 
 input {
     font-size: 1em;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', 'Noto Sans Hebrew', sans-serif;
 }
 
 button {
@@ -33,15 +48,15 @@ button {
     font-weight: 400;
     outline: none;
     border: none;
-    background-color: var(--dark-blue);
+    background-color: var(--primary-dark);
     color: white;
 }
 button:hover {
     cursor: pointer;
-    background-color: var(--medium-blue);
+    background-color: var(--primary-medium);
 }
 button:active {
-    background-color: var(--light-blue);
+    background-color: var(--primary-light);
 }
 button:disabled {
     opacity: 0.3;
@@ -49,7 +64,7 @@ button:disabled {
 
 h1 {
     margin-top: 64px;
-    color: var(--dark-blue);
+    color: var(--primary-dark);
     font-weight: 800;
 }
 

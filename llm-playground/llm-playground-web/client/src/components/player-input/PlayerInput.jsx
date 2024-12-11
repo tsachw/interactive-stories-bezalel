@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import "./player-input-styles.css";
 import Timer from "../../utils/timer";
+import { SETTINGS } from "../../../settings";
+
+const isRTL = SETTINGS.LANG == 'he';
 
 export default function PlayerInput({ apiStatus, onSend, onInactivity }) {
 
@@ -66,7 +69,7 @@ export default function PlayerInput({ apiStatus, onSend, onInactivity }) {
                     disabled={!text || apiStatus === 'loading'}
                     onClick={send}
                 >
-                    →
+                    {isRTL ? '←' : '→'}
                 </button >
                 {
                     apiStatus === 'error' && 'Something is broken 😵‍💫'

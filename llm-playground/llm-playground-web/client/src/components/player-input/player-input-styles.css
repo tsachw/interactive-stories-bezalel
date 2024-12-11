@@ -10,7 +10,7 @@
     background-color: var(--main-bg-color);
     --input-height: 48px;
     --button-size: 40px;
-    --corners: 8px;
+    --corners: 12px;
 }
 
 #player-text-input {

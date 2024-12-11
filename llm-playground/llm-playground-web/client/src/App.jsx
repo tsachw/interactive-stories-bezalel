@@ -2,9 +2,10 @@ import { useState } from "react";
 import { postMessages } from "./story-api";
 import StoryBodyView from "./components/content-view/StoryBodyView";
 import PlayerInput from "./components/player-input/PlayerInput";
-import { storyConfig } from './story-config';
-// import { storyConfig } from './examples/story-config-01-birdwatching';
+// import { storyConfig } from './story-config';
+import { storyConfig } from './examples/story-config-01-birdwatching';
 // import { storyConfig } from './examples/story-config-02-a-late-divorce';
+// import { storyConfig } from './examples/story-con fig-03-hebrew';
 
 function App() {
 

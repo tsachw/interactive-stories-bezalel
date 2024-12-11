@@ -12,7 +12,7 @@ export const responseSchema = {
                 type: 'string',
                 description: `
                     The story text to present to the player.
-                    Word count limitation is 20. It might change by a system message.
+                    Word count limitation is 30. It might change by a system message.
                 `,
             },
             callToAction: {

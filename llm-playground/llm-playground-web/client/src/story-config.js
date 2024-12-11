@@ -17,6 +17,6 @@ const instructions = `
     ...
 `;
 const openingLine = `Once upon a time...`;
-const firstCallToAction = `What would you like to do now?`;
+const firstCallToAction = ``;
 
 export const storyConfig = { name, instructions, openingLine, firstCallToAction };
